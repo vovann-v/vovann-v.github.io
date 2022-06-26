@@ -23,36 +23,46 @@
 .fa-vk {
   background: #000000;
   color: white;
-</style>
-
-<style>
-body {
-  background-image: url('background.jpg');
 }
-</style>
 
-<style>
+
+body {
+  background-image: url('background.jpg'); 
+position: relative
+}
+
+
+
 img {
   border-radius: 50%;
 }
-</style>
 
-<style>
+
+
 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
+.canvas{
+background-color:white
+ border: 1px solid black;
+ display:none
+}
+ .test{
+z-index: 1
+top:-100px
+}
 </style>
 
 </head>
-<body>
+<body onload="draw();">
 
 <img src="avatarka.jpg" alt="avatarka">
 
 <img src="Nickname.bmp" alt="Nickname">
 
-<!-- <a title="Telegram" href="https://t.me/Vovann40" target="_blank"><img src="Telegram.png” alt="Telegram"/></a> -->
+<!-- <a title="Telegram" href="https://t.me/Vovann40" target="_blank"><img src="Telegram.jpg” alt="Telegram"></img></a> -->
 
 <center>
 <a href="https://t.me/Vovann40" class="fa fa-telegram"></a>
@@ -61,6 +71,48 @@ img {
 <center>
 <a href="https://vk.com/napstablook_22" class="fa fa-vk"></a>
 </center>
+<canvas class="test" weight=1000 height=1000 id="canv" />
+<script>
+const canvas = document.getElementById('canv');
+const ctx = canvas.getContext('2d');
+const w = canvas.width = document.body.offsetWidth;
+const h = canvas.height = document.body.offsetHeight;
+
+ctx.fillStyle = '#000';
+ctx.fillRect(0, 0, w, h);
+const cols = Math.floor(w / 20) + 1;
+const ypos = Array(cols).fill(0);
+function matrix () {
+  // Draw a semitransparent black rectangle on top of previous drawing
+  ctx.fillStyle = '#0001';
+  ctx.fillRect(0, 0, w, h);
+
+  // Set color to green and font to 15pt monospace in the drawing context
+  ctx.fillStyle = '#0f0';
+  ctx.font = '12pt wingdings';
+
+  // for each column put a random character at the end
+  ypos.forEach((y, ind) => {
+    // generate a random character
+    const text = String.fromCharCode(Math.random() * 128);
+
+    // x coordinate of the column, y coordinate is already given
+    const x = ind * 20;
+    // render the character at (x, y)
+    ctx.fillText(text, x, y);
+
+    // randomly reset the end of the column if it's at least 100px high
+    if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+    // otherwise just move the y coordinate for the column 20px down,
+    else ypos[ind] = y + 20;
+
+  });
+}
+
+// render the animation at 20 FPS.
+setInterval(matrix, 50);
+
+</script>
 
 </body>
 </html> 
